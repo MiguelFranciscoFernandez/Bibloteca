@@ -12,9 +12,10 @@
  ******************************************************************/
 package com.example;
 public class Usuario {
-    
+    private String nombre;
+    private String password;
+    private String rol;
     private int librosPrestados;
-    }
 
     public String getNombre() {
         return nombre;
