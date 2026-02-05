@@ -17,33 +17,12 @@ public class Usuario {
     private String rol;
     private int librosPrestados;
 
-    public String getNombre() {
-        return nombre;
-    }
-    public void setNombre(String nombre) {
+    public Usuario(String nombre, String password, String rol) {
         this.nombre = nombre;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
         this.password = password;
-    }
-    public String getRol() {
-        return rol;
-    }
-    public void setRol(String rol) {
         this.rol = rol;
+        this.librosPrestados = 0; // Inicialmente no tiene libros prestados
     }
-    public int getLibrosPrestados() {
-        return librosPrestados;
-    }
-    public void prestarLibro() {
-        librosPrestados++;
-    }
-    public void devolverLibro() {
-        if (librosPrestados > 0) {
-            librosPrestados--;
-        }
-    }
+
+
 }
