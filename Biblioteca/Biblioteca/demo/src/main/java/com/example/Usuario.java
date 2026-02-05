@@ -11,6 +11,7 @@
  * - Métodos para actualizar el contador de libros del usuario.
  ******************************************************************/
 package com.example;
+
 public class Usuario {
     private String nombre;
     private String password;
@@ -24,5 +25,30 @@ public class Usuario {
         this.librosPrestados = 0; // Inicialmente no tiene libros prestados
     }
 
+    // Getters y setters
+    public String getNombre() {
+        return nombre;
+    }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public int getLibrosPrestados() {
+
+        return librosPrestados;
+    }
+
+    // Métodos para actualizar el contador del usuario
+    public void incrementarPrestamos() {
+        this.librosPrestados++;
+    }
+
+    public void decrementarPrestamos() {
+        if (this.librosPrestados > 0) this.librosPrestados--;
+    }
 }
