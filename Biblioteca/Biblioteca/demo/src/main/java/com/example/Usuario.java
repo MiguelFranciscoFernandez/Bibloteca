@@ -26,8 +26,25 @@ public class Usuario {
     }
 
     // Getters y setters
+    
     public String getNombre() {
         return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public void setLibrosPrestados(int librosPrestados) {
+        this.librosPrestados = librosPrestados;
     }
 
     public String getPassword() {
