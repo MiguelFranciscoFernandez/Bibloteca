@@ -49,6 +49,26 @@ public class Usuario {
     }
 
     public void decrementarPrestamos() {
-        if (this.librosPrestados > 0) this.librosPrestados--;
+        if (this.librosPrestados > 0)
+            this.librosPrestados--;
+    }
+
+    public boolean tienePermisoAdmin() {
+        if (this.rol.equalsIgnoreCase("admin")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean validarPassword(String intentoPassword) {
+        if (this.password.equals(intentoPassword)) {
+            return true;
+        } else {
+            // Mensaje opcional de aviso
+            System.out.println(" Contraseña incorrecta para el usuario: " + this.nombre);
+            return false;
+        }
+
     }
 }
