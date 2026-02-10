@@ -12,24 +12,89 @@
  ******************************************************************/
 package com.example;
 public class Biblioteca {
-    
-    // 1. Atributo de la clase inicializado en 0
-    private Usuario[] listaUsuarios = new Usuario[0];
+    private Libro[] Libro;
+    private Usuario[] Usuario;
+    private Prestamos[] Prestamos;
+    private int Lista_Libro;
+    private int lista_Usuario;
+    private int Lista_Prestamos;
 
-    // 2. Método de creación de usuarios
-    public void registrarUsuario(String nombre, String pass, String rol) {
-        // DEFINIR UNO NUEVO CON LONGITUD +1
-        Usuario[] nuevoArray = new Usuario[this.listaUsuarios.length + 1];
+    public Biblioteca(){
 
-        // Copiar los datos del anterior al nuevo
-        for (int i = 0; i < this.listaUsuarios.length; i++) {
-            nuevoArray[i] = this.listaUsuarios[i];
+    }
+
+    public Biblioteca(Libro[] Libro, Usuario[] Usuario, Prestamos[] Prestamos){
+        this.Libro = new Libro[0];
+        this.Usuario = new Usuario[0];
+        this.Prestamos = new Prestamos[0];
+        this.Lista_Libro = 0;
+        this.Lista_Prestamos = 0;
+        this.lista_Usuario = 0;
+    }
+
+    public Libro[] getLista_Libro() {
+        return Lista_Libro;
+    }
+
+    public Usuario[] getLista_Usuario() {
+        return lista_Usuario;
+    }
+
+    public Prestamos[] getLista_Prestamos() {
+        return Lista_Prestamos;
+    }
+
+    //Metodos para agregar libro
+    public void Agregar_Libro(String titulo){
+        if (Lista_Libro < Libro.length) {
+            Libro[Lista_Libro] = new Libro(titulo);
+            Lista_Libro++;
+            System.out.println("Nuevo libro aniadido de forma correcta");
+        } else {
+            System.out.println("No hay más espacio para aniadir un nuevo libro");
         }
+    }
 
-        // Añadir el nuevo usuario en la última posición
-        nuevoArray[nuevoArray.length - 1] = new Usuario(nombre, pass, rol);
+    public void Agregar_Libro(long isbn){
+        if (Lista_Libro < Libro.length) {
+            Libro[Lista_Libro] = new Libro(isbn);
+            Lista_Libro++;
+            System.out.println("Nuevo libro aniadido de forma correcta");
+        } else {
+            System.out.println("No hay más espacio para aniadir un nuevo libro");
+        }
+    }
 
-        // SE LA PONEMOS AL ATRIBUTO DE LA CLASE
-        this.listaUsuarios = nuevoArray;
+    //Metodo para eliminar libros
+    public void Eliminar_Libro(String titulo){
+        for (int i = 0; i < Lista_Libro; i++) {
+            if (Libro[i].getTitulo() == titulo) {
+                for (int j = i; j < Lista_Libro - 1; j++) {
+                    Libro[j] = Libro[j + 1];
+                }
+                Lista_Libro--;
+                System.out.println("El libro ha sido eliminado de esta biblioteca");
+                return;
+            }
+        }
+        System.out.println("Libro no encontrada");
+    }
+
+    public void Eliminar_Libro(long isbn){
+        for (int i = 0; i < Lista_Libro; i++) {
+            if (Libro[i].getIsbn() == isbn) {
+                for (int j = i; j < Lista_Libro - 1; j++) {
+                    Libro[j] = Libro[j + 1];
+                }
+                Lista_Libro--;
+                System.out.println("El libro ha sido eliminado de esta biblioteca");
+                return;
+            }
+        }
+        System.out.println("Libro no encontrada");
+    }
+
+    public void Buscar_Libro(String titulo){
+
     }
 }
