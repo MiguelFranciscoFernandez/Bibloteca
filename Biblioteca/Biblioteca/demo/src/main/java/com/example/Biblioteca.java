@@ -10,91 +10,112 @@
  * - Lógica interna de agregar/eliminar libros del sistema.
  * - Generación de estadísticas globales.
  ******************************************************************/
+
+
 package com.example;
+import java.util.Arrays;
+
 public class Biblioteca {
-    private Libro[] Libro;
-    private Usuario[] Usuario;
-    private Prestamos[] Prestamos;
-    private int Lista_Libro;
-    private int lista_Usuario;
-    private int Lista_Prestamos;
-
+    private Libro[] libros;
+    private Usuario[] usuarios;
+    private Prestamos[] prestamos;
+    
+    // Constructor vacío - inicializa arrays vacíos
     public Biblioteca(){
-
+        this.libros = new Libro[0];
+        this.usuarios = new Usuario[0];
+        this.prestamos = new Prestamos[0];
     }
-
-    public Biblioteca(Libro[] Libro, Usuario[] Usuario, Prestamos[] Prestamos){
-        this.Libro = new Libro[0];
-        this.Usuario = new Usuario[0];
-        this.Prestamos = new Prestamos[0];
-        this.Lista_Libro = 0;
-        this.Lista_Prestamos = 0;
-        this.lista_Usuario = 0;
+    
+    // Constructor con parámetros
+    public Biblioteca(Libro[] libros, Usuario[] usuarios, Prestamos[] prestamos){
+        this.libros = libros;
+        this.usuarios = usuarios;
+        this.prestamos = prestamos;
     }
-
-    public Libro[] getLista_Libro() {
-        return Lista_Libro;
+    
+    public Libro[] getLibro() {
+        return libros;
     }
-
-    public Usuario[] getLista_Usuario() {
-        return lista_Usuario;
+    public Usuario[] getUsuario() {
+        return usuarios;
     }
-
-    public Prestamos[] getLista_Prestamos() {
-        return Lista_Prestamos;
+    public Prestamos[] getPrestamos() {
+        return prestamos;
     }
-
-    //Metodos para agregar libro
-    public void Agregar_Libro(String titulo){
-        if (Lista_Libro < Libro.length) {
-            Libro[Lista_Libro] = new Libro(titulo);
-            Lista_Libro++;
-            System.out.println("Nuevo libro aniadido de forma correcta");
-        } else {
-            System.out.println("No hay más espacio para aniadir un nuevo libro");
-        }
+    
+    // AGREGAR LIBRO
+    public void Agregar_Libro(String titulo, String autor, String editorial, long Isbn, int n_paginas, Genero genero){
+        libros = Arrays.copyOf(libros, libros.length + 1);
+        
+        libros[libros.length - 1] = new Libro(titulo, autor, editorial, Isbn, n_paginas, genero);
+        
+        System.out.println("Nuevo libro añadido de forma correcta");
     }
-
-    public void Agregar_Libro(long isbn){
-        if (Lista_Libro < Libro.length) {
-            Libro[Lista_Libro] = new Libro(isbn);
-            Lista_Libro++;
-            System.out.println("Nuevo libro aniadido de forma correcta");
-        } else {
-            System.out.println("No hay más espacio para aniadir un nuevo libro");
-        }
-    }
-
-    //Metodo para eliminar libros
+    
+    // ELIMINAR LIBRO por título 
     public void Eliminar_Libro(String titulo){
-        for (int i = 0; i < Lista_Libro; i++) {
-            if (Libro[i].getTitulo() == titulo) {
-                for (int j = i; j < Lista_Libro - 1; j++) {
-                    Libro[j] = Libro[j + 1];
-                }
-                Lista_Libro--;
-                System.out.println("El libro ha sido eliminado de esta biblioteca");
-                return;
+        int indice = -1;
+        for (int i = 0; i < libros.length; i++) {
+            if (libros[i].getTitulo().equals(titulo)) {
+                indice = i;
+                break;
             }
         }
-        System.out.println("Libro no encontrada");
+        if (indice == -1) {
+            System.out.println("Libro no encontrado");
+            return;
+        }
+        Libro[] nuevoArray = new Libro[libros.length - 1];
+        System.arraycopy(libros, 0, nuevoArray, 0, indice);
+        System.arraycopy(libros, indice + 1, nuevoArray, indice, libros.length - indice - 1);
+        libros = nuevoArray;
+        System.out.println("El libro ha sido eliminado de esta biblioteca");
     }
-
+    
+    // ELIMINAR LIBRO por ISBN 
     public void Eliminar_Libro(long isbn){
-        for (int i = 0; i < Lista_Libro; i++) {
-            if (Libro[i].getIsbn() == isbn) {
-                for (int j = i; j < Lista_Libro - 1; j++) {
-                    Libro[j] = Libro[j + 1];
-                }
-                Lista_Libro--;
-                System.out.println("El libro ha sido eliminado de esta biblioteca");
+        int indice = -1;
+        for (int i = 0; i < libros.length; i++) {
+            if (libros[i].getIsbn() == isbn) {
+                indice = i;
+                break;
+            }
+        }
+        if (indice == -1) {
+            System.out.println("Libro no encontrado");
+            return;
+        }
+        Libro[] nuevoArray = new Libro[libros.length - 1];
+        System.arraycopy(libros, 0, nuevoArray, 0, indice);
+        System.arraycopy(libros, indice + 1, nuevoArray, indice, libros.length - indice - 1);
+        libros = nuevoArray;
+        System.out.println("El libro ha sido eliminado de esta biblioteca");
+    }
+    
+    // BUSCAR LIBRO
+    public void Buscar_Libro(String titulo){
+        for (int i = 0; i < libros.length; i++) {
+            if (libros[i].getTitulo().equalsIgnoreCase(titulo)) {
+                System.out.println("Libro encontrado:");
+                System.out.println("Título: " + libros[i].getTitulo());
+                System.out.println("Autor: " + libros[i].getAutor());
+                System.out.println("ISBN: " + libros[i].getIsbn());
                 return;
             }
         }
-        System.out.println("Libro no encontrada");
+        System.out.println("Libro no encontrado");
     }
 
-    public void Buscar_Libro(String titulo){
-
+    // Mostrar todos los libros disponibles
+    public void Mostrar_Libros() {
+        if (libros.length == 0) {
+            System.out.println("No hay libros disponibles en la biblioteca.");
+            return;
+        }
+        System.out.println("Libros disponibles en la biblioteca:");
+        for (Libro libro : libros) {
+            System.out.println("- " + libro.getTitulo() + " por " + libro.getAutor());
+        }
     }
 }
