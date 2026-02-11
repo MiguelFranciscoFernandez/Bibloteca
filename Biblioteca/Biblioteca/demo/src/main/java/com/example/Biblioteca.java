@@ -37,7 +37,7 @@ public class Biblioteca {
     }
 
     public Usuario[] getLista_Usuario() {
-        return lista_Usuario;
+        return Lista_Usuario;
     }
 
     public Prestamos[] getLista_Prestamos() {
