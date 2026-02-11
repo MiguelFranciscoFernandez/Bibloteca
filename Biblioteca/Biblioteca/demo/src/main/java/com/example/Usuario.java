@@ -17,12 +17,14 @@ public class Usuario {
     private String password;
     private String rol;
     private int librosPrestados;
+    private int librosDevueltos;
 
     public Usuario(String nombre, String password, String rol) {
         this.nombre = nombre;
         this.password = password;
         this.rol = rol;
-        this.librosPrestados = 0; // Inicialmente no tiene libros prestados
+        this.librosPrestados = 0;
+        this.librosDevueltos = 0;
     }
 
     // Getters y setters
@@ -60,14 +62,18 @@ public class Usuario {
         return librosPrestados;
     }
 
+    public int getLibrosDevueltos() {
+        return librosDevueltos;
+    }
+
     // Métodos para actualizar el contador del usuario
     public void incrementarPrestamos() {
         this.librosPrestados++;
     }
 
-    public void decrementarPrestamos() {
+    public void incrementarDevolucion(int librosprestados) {
         if (this.librosPrestados > 0)
-            this.librosPrestados--;
+            this.librosDevueltos++;
     }
 
     public boolean tienePermisoAdmin() {

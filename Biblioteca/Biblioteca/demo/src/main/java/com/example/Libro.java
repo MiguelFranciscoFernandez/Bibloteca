@@ -11,9 +11,11 @@
  * - Método toString para visualización.
  ******************************************************************/
 package com.example;
-enum Genero{
+
+enum Genero {
     Romance, manga, ciencia_ficcion, magia, historicos, cientificos, educativos, terror, drama
 }
+
 public class Libro {
     private String titulo;
     private String autor;
@@ -22,10 +24,10 @@ public class Libro {
     private int n_paginas;
     private Genero genero;
 
-    public Libro(){
+    public Libro() {
     }
 
-    public Libro(String titulo, String autor, String editorial, long Isbn, int n_paginas, Genero genero){
+    public Libro(String titulo, String autor, String editorial, long Isbn, int n_paginas, Genero genero) {
         this.titulo = titulo;
         this.autor = autor;
         this.editorial = editorial;
@@ -33,6 +35,9 @@ public class Libro {
         this.n_paginas = n_paginas;
         this.genero = genero;
     }
+
+
+
 
     public String getTitulo() {
         return titulo;
@@ -83,5 +88,3 @@ public class Libro {
     }
 
 }
-    
-
