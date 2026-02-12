@@ -47,9 +47,7 @@ public class Biblioteca {
     // AGREGAR LIBRO
     public void Agregar_Libro(String titulo, String autor, String editorial, long Isbn, int n_paginas, Genero genero){
         libros = Arrays.copyOf(libros, libros.length + 1);
-        
         libros[libros.length - 1] = new Libro(titulo, autor, editorial, Isbn, n_paginas, genero);
-        
         System.out.println("Nuevo libro añadido de forma correcta");
     }
     
