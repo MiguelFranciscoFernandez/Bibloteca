@@ -1,0 +1,1 @@
+import static org.junit.jupiter.api.Assertions.*; import org.junit.jupiter.api.Test; class LibroTest { @Test void testHelloWorld() { assertEquals("Hello, World!", "Hello, World!"); } }

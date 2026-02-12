@@ -1,0 +1,1 @@
+public class Prestamos { private String libro; private String usuario; public Prestamos(String libro, String usuario) { this.libro = libro; this.usuario = usuario; } public String getLibro() { return libro; } public String getUsuario() { return usuario; } public void prestar() { // Lógica para prestar el libro } public void devolver() { // Lógica para devolver el libro } }
