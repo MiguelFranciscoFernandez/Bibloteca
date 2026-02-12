@@ -11,48 +11,50 @@
  * - Generación de estadísticas globales.
  ******************************************************************/
 
-
 package com.example;
+
 import java.util.Arrays;
 
 public class Biblioteca {
     private Libro[] libros;
     private Usuario[] usuarios;
     private Prestamos[] prestamos;
-    
+
     // Constructor vacío - inicializa arrays vacíos
-    public Biblioteca(){
+    public Biblioteca() {
         this.libros = new Libro[0];
         this.usuarios = new Usuario[0];
         this.prestamos = new Prestamos[0];
     }
-    
+
     // Constructor con parámetros
-    public Biblioteca(Libro[] libros, Usuario[] usuarios, Prestamos[] prestamos){
+    public Biblioteca(Libro[] libros, Usuario[] usuarios, Prestamos[] prestamos) {
         this.libros = libros;
         this.usuarios = usuarios;
         this.prestamos = prestamos;
     }
-    
+
     public Libro[] getLibro() {
         return libros;
     }
+
     public Usuario[] getUsuario() {
         return usuarios;
     }
+
     public Prestamos[] getPrestamos() {
         return prestamos;
     }
-    
+
     // AGREGAR LIBRO
-    public void Agregar_Libro(String titulo, String autor, String editorial, long Isbn, int n_paginas, Genero genero){
+    public void Agregar_Libro(String titulo, String autor, String editorial, long Isbn, int n_paginas, Genero genero) {
         libros = Arrays.copyOf(libros, libros.length + 1);
         libros[libros.length - 1] = new Libro(titulo, autor, editorial, Isbn, n_paginas, genero);
         System.out.println("Nuevo libro añadido de forma correcta");
     }
-    
-    // ELIMINAR LIBRO por título 
-    public void Eliminar_Libro(String titulo){
+
+    // ELIMINAR LIBRO por título
+    public void Eliminar_Libro(String titulo) {
         int indice = -1;
         for (int i = 0; i < libros.length; i++) {
             if (libros[i].getTitulo().equals(titulo)) {
@@ -70,9 +72,9 @@ public class Biblioteca {
         libros = nuevoArray;
         System.out.println("El libro ha sido eliminado de esta biblioteca");
     }
-    
-    // ELIMINAR LIBRO por ISBN 
-    public void Eliminar_Libro(long isbn){
+
+    // ELIMINAR LIBRO por ISBN
+    public void Eliminar_Libro(long isbn) {
         int indice = -1;
         for (int i = 0; i < libros.length; i++) {
             if (libros[i].getIsbn() == isbn) {
@@ -90,9 +92,9 @@ public class Biblioteca {
         libros = nuevoArray;
         System.out.println("El libro ha sido eliminado de esta biblioteca");
     }
-    
+
     // BUSCAR LIBRO
-    public void Buscar_Libro(String titulo){
+    public void Buscar_Libro(String titulo) {
         for (int i = 0; i < libros.length; i++) {
             if (libros[i].getTitulo().equalsIgnoreCase(titulo)) {
                 System.out.println("Libro encontrado:");
