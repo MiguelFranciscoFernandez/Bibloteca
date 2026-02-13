@@ -1,4 +1,4 @@
-/**
+**
  * @author David Conde
  * Clase que representa  el sistema de gestión.
  */
