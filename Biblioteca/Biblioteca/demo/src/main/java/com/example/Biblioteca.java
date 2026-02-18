@@ -118,7 +118,6 @@ public class Biblioteca {
             System.out.println("- " + libro.getTitulo() + " por " + libro.getAutor());
         }
     }
-
         public void Mostrar_Usuarios() {
         if (usuarios.length == 0) {
             System.out.println("No hay usuarios registrados en la biblioteca.");
@@ -129,5 +128,6 @@ public class Biblioteca {
             System.out.println("- " + usuario.getNombre() + " (Rol: " + usuario.getRol() + ")");
         }
     }
+
 
 }
