@@ -92,6 +92,7 @@ public class Usuario {
             System.out.println(" Contraseña incorrecta para el usuario: " + this.nombre);
             return false;
         }
-
     }
+
+    
 }
