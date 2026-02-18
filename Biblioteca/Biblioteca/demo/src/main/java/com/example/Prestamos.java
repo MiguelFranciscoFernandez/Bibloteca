@@ -52,7 +52,7 @@ public class Prestamos {
 
     // Realizar préstamo
     public void realizarPrestamo() {
-        if (usuario.getLibrosPrestados() < 2 && usuario.getLibrosPrestados() > 0) {
+        if (usuario.getLibrosPrestados() < 2 && usuario.getLibrosPrestados() >= 0) {
             usuario.incrementarPrestamos();
             System.out.println("Préstamo realizado del  " + libro.getTitulo() + "ha sido prestado el " + this.fechaPrestamo + "  a " + usuario.getNombre());
         } else {

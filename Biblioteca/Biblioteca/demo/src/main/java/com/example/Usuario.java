@@ -49,6 +49,8 @@ public class Usuario {
         this.librosPrestados = librosPrestados;
     }
 
+    
+
     public String getPassword() {
         return password;
     }
