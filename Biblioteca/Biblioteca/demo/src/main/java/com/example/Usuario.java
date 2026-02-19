@@ -67,34 +67,4 @@ public class Usuario {
     public int getLibrosDevueltos() {
         return librosDevueltos;
     }
-
-    // Métodos para actualizar el contador del usuario
-    public void incrementarPrestamos() {
-        this.librosPrestados++;
-    }
-
-    public void incrementarDevolucion(int librosprestados) {
-        if (this.librosPrestados > 0)
-            this.librosDevueltos++;
-    }
-
-    public boolean tienePermisoAdmin() {
-        if (this.rol.equalsIgnoreCase("admin")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean validarPassword(String intentoPassword) {
-        if (this.password.equals(intentoPassword)) {
-            return true;
-        } else {
-            // Mensaje opcional de aviso
-            System.out.println(" Contraseña incorrecta para el usuario: " + this.nombre);
-            return false;
-        }
-    }
-
-    
 }

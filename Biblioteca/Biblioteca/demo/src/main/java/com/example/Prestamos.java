@@ -49,28 +49,6 @@ public class Prestamos {
         this.fechaDevolucion = fechaDevolucion;
     }
 
-
-    // Realizar préstamo
-    public void realizarPrestamo() {
-        if (usuario.getLibrosPrestados() < 2 && usuario.getLibrosPrestados() >= 0) {
-            usuario.incrementarPrestamos();
-            System.out.println("Préstamo realizado del  " + libro.getTitulo() + "ha sido prestado el " + this.fechaPrestamo + "  a " + usuario.getNombre());
-        } else {
-            System.out.println("El usuario " + usuario.getNombre() + " ya tiene 2 libros prestados. No se puede realizar el préstamo.");
-        }
-    }
-
-    // Realizar devolución
-        public void realizarDevolucion() {
-        if (usuario.getLibrosPrestados() > 0 && usuario.getLibrosPrestados() < 2) {
-            usuario.incrementarDevolucion(usuario.getLibrosPrestados());
-            System.out.println("Devolución realizada del " + libro.getTitulo() + " se ha devuelto el " + this.fechaDevolucion + " por " + usuario.getNombre());
-        } else {
-            System.out.println("El usuario " + usuario.getNombre() + " no tiene libros prestados. No se puede realizar la devolución de ningun libro.");
-        }
-    }
-
-    //Saber si el libroesta prestado o no un libro
 }
 
 

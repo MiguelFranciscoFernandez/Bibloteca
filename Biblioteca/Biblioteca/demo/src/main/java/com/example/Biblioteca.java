@@ -132,7 +132,58 @@ public class Biblioteca {
             System.out.println("- " + usuario.getNombre() + " (Rol: " + usuario.getRol() + ")");
         }
     }
+    //parte Usuario
+    // Métodos para actualizar el contador del usuario
+    public void incrementarPrestamos() {
+        this.librosPrestados++;
+    }
 
+    public void incrementarDevolucion(int librosprestados) {
+        if (this.librosPrestados > 0)
+            this.librosDevueltos++;
+    }
+
+    public boolean tienePermisoAdmin() {
+        if (this.rol.equalsIgnoreCase("admin")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean validarPassword(String intentoPassword) {
+        if (this.password.equals(intentoPassword)) {
+            return true;
+        } else {
+            // Mensaje opcional de aviso
+            System.out.println(" Contraseña incorrecta para el usuario: " + this.nombre);
+            return false;
+        }
+    }
+
+     //Parte prestamo
+    
+    // Realizar préstamo
+    public void realizarPrestamo() {
+        if (usuario.getLibrosPrestados() < 2 && usuario.getLibrosPrestados() >= 0) {
+            usuario.incrementarPrestamos();
+            System.out.println("Préstamo realizado del  " + libro.getTitulo() + "ha sido prestado el " + this.fechaPrestamo + "  a " + usuario.getNombre());
+        } else {
+            System.out.println("El usuario " + usuario.getNombre() + " ya tiene 2 libros prestados. No se puede realizar el préstamo.");
+        }
+    }
+
+    // Realizar devolución
+        public void realizarDevolucion() {
+        if (usuario.getLibrosPrestados() > 0 && usuario.getLibrosPrestados() < 2) {
+            usuario.incrementarDevolucion(usuario.getLibrosPrestados());
+            System.out.println("Devolución realizada del " + libro.getTitulo() + " se ha devuelto el " + this.fechaDevolucion + " por " + usuario.getNombre());
+        } else {
+            System.out.println("El usuario " + usuario.getNombre() + " no tiene libros prestados. No se puede realizar la devolución de ningun libro.");
+        }
+    }
+
+    //Saber si el libroesta prestado o no un libro
 }
 
 
