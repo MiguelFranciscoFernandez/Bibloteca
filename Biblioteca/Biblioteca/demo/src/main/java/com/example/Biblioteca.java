@@ -46,10 +46,13 @@ public class Biblioteca {
         return prestamos;
     }
 
+    // AGREGRAR USUARIO
+
     // AGREGAR LIBRO
-    public void Agregar_Libro(String titulo, String autor, String editorial, long Isbn, int n_paginas, Genero genero) {
+    public void Agregar_Libro(String titulo, String autor, String editorial, String isbn, int n_paginas,
+            Genero genero) {
         libros = Arrays.copyOf(libros, libros.length + 1);
-        libros[libros.length - 1] = new Libro(titulo, autor, editorial, Isbn, n_paginas, genero);
+        libros[libros.length - 1] = new Libro(titulo, autor, editorial, isbn, n_paginas, genero);
         System.out.println("Nuevo libro añadido de forma correcta");
     }
 
@@ -74,10 +77,10 @@ public class Biblioteca {
     }
 
     // ELIMINAR LIBRO por ISBN
-    public void Eliminar_Libro(long isbn) {
+    public void Eliminar_Libro_ISBN(String isbn) {
         int indice = -1;
         for (int i = 0; i < libros.length; i++) {
-            if (libros[i].getIsbn() == isbn) {
+            if (libros[i].getIsbn().equals(isbn)) {
                 indice = i;
                 break;
             }
@@ -119,7 +122,6 @@ public class Biblioteca {
         }
     }
 
-    
     public void Mostrar_Usuarios() {
         if (usuarios.length == 0) {
             System.out.println("No hay usuarios registrados en la biblioteca.");
@@ -132,3 +134,5 @@ public class Biblioteca {
     }
 
 }
+
+
