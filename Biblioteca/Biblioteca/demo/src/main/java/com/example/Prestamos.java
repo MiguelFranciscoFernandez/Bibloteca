@@ -69,5 +69,8 @@ public class Prestamos {
             System.out.println("El usuario " + usuario.getNombre() + " no tiene libros prestados. No se puede realizar la devolución de ningun libro.");
         }
     }
+
+    //Saber si el libroesta prestado o no un libro
 }
+
 
