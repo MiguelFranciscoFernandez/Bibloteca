@@ -1,13 +1,15 @@
+
 /**
- * @author David Conde
- * Clase que representa  el sistema de gestión.
+ * @author Todos
+ * Clase que representa el sistema de gestión.
  */
 
 /******************************************************************
  * RESPONSABLE: COMPAÑERO C
- * TAREAS: 
+ * TAREAS:
  * - Motor de ARRAYS DINÁMICOS (Redimensionado manual +1 / -1).
- * - Lógica interna de agregar/eliminar libros del sistema.
+ * - Lógica interna de agregar/eliminar libros y usuarios del sistema.
+ * - Gestión de préstamos y devoluciones.
  * - Generación de estadísticas globales.
  ******************************************************************/
 
@@ -46,9 +48,63 @@ public class Biblioteca {
         return prestamos;
     }
 
-    // AGREGRAR USUARIO
+    // ----------------------------------------------------------------
+    // GESTIÓN DE USUARIOS
+    // ----------------------------------------------------------------
 
-    // AGREGAR LIBRO
+    public void Agregar_Usuario(String nombre, String password, String rol) {
+        usuarios = Arrays.copyOf(usuarios, usuarios.length + 1);
+        usuarios[usuarios.length - 1] = new Usuario(nombre, password, rol);
+        System.out.println("Nuevo usuario añadido de forma correcta");
+    }
+
+    public void Eliminar_Usuario(String nombre) {
+        int indice = -1;
+        for (int i = 0; i < usuarios.length; i++) {
+            if (usuarios[i].getNombre().equalsIgnoreCase(nombre)) {
+                indice = i;
+                break;
+            }
+        }
+        if (indice == -1) {
+            System.out.println("Usuario no encontrado");
+            return;
+        }
+        Usuario[] nuevoArray = new Usuario[usuarios.length - 1];
+        System.arraycopy(usuarios, 0, nuevoArray, 0, indice);
+        System.arraycopy(usuarios, indice + 1, nuevoArray, indice, usuarios.length - indice - 1);
+        usuarios = nuevoArray;
+        System.out.println("El usuario ha sido eliminado de la biblioteca");
+    }
+
+    public boolean Validar_Password(String nombre, String intentoPassword) {
+        for (Usuario u : usuarios) {
+            if (u.getNombre().equalsIgnoreCase(nombre)) {
+                if (u.getPassword().equals(intentoPassword)) {
+                    return true;
+                } else {
+                    System.out.println("Contraseña incorrecta para el usuario: " + nombre);
+                    return false;
+                }
+            }
+        }
+        System.out.println("Usuario no encontrado");
+        return false;
+    }
+
+    public boolean Tiene_Permiso_Admin(String nombre) {
+        for (Usuario u : usuarios) {
+            if (u.getNombre().equalsIgnoreCase(nombre)) {
+                return u.getRol().equalsIgnoreCase("admin");
+            }
+        }
+        return false;
+    }
+
+    // ----------------------------------------------------------------
+    // GESTIÓN DE LIBROS
+    // ----------------------------------------------------------------
+
     public void Agregar_Libro(String titulo, String autor, String editorial, String isbn, int n_paginas,
             Genero genero) {
         libros = Arrays.copyOf(libros, libros.length + 1);
@@ -56,7 +112,6 @@ public class Biblioteca {
         System.out.println("Nuevo libro añadido de forma correcta");
     }
 
-    // ELIMINAR LIBRO por título
     public void Eliminar_Libro(String titulo) {
         int indice = -1;
         for (int i = 0; i < libros.length; i++) {
@@ -76,7 +131,6 @@ public class Biblioteca {
         System.out.println("El libro ha sido eliminado de esta biblioteca");
     }
 
-    // ELIMINAR LIBRO por ISBN
     public void Eliminar_Libro_ISBN(String isbn) {
         int indice = -1;
         for (int i = 0; i < libros.length; i++) {
@@ -96,21 +150,75 @@ public class Biblioteca {
         System.out.println("El libro ha sido eliminado de esta biblioteca");
     }
 
-    // BUSCAR LIBRO
     public void Buscar_Libro(String titulo) {
-        for (int i = 0; i < libros.length; i++) {
-            if (libros[i].getTitulo().equalsIgnoreCase(titulo)) {
+        for (Libro libro : libros) {
+            if (libro.getTitulo().equalsIgnoreCase(titulo)) {
                 System.out.println("Libro encontrado:");
-                System.out.println("Título: " + libros[i].getTitulo());
-                System.out.println("Autor: " + libros[i].getAutor());
-                System.out.println("ISBN: " + libros[i].getIsbn());
+                System.out.println("Título: " + libro.getTitulo());
+                System.out.println("Autor: " + libro.getAutor());
+                System.out.println("ISBN: " + libro.getIsbn());
                 return;
             }
         }
         System.out.println("Libro no encontrado");
     }
 
-    // Mostrar todos los libros disponibles
+    // ----------------------------------------------------------------
+    // GESTIÓN DE PRÉSTAMOS
+    // ----------------------------------------------------------------
+
+    public void Registrar_Prestamo(String nombreUsuario, String tituloLibro, String fechaPrestamo,
+            String fechaDevolucion) {
+        Usuario usuario = null;
+        Libro libro = null;
+
+        for (Usuario u : usuarios) {
+            if (u.getNombre().equalsIgnoreCase(nombreUsuario)) {
+                usuario = u;
+                break;
+            }
+        }
+        for (Libro l : libros) {
+            if (l.getTitulo().equalsIgnoreCase(tituloLibro)) {
+                libro = l;
+                break;
+            }
+        }
+
+        if (usuario == null) {
+            System.out.println("Usuario no encontrado");
+            return;
+        }
+        if (libro == null) {
+            System.out.println("Libro no encontrado");
+            return;
+        }
+
+        prestamos = Arrays.copyOf(prestamos, prestamos.length + 1);
+        prestamos[prestamos.length - 1] = new Prestamos(fechaPrestamo, fechaDevolucion, usuario, libro);
+        usuario.setLibrosPrestados(usuario.getLibrosPrestados() + 1);
+        System.out.println("Préstamo registrado correctamente");
+    }
+
+    public void Registrar_Devolucion(String nombreUsuario, String tituloLibro) {
+        for (Usuario u : usuarios) {
+            if (u.getNombre().equalsIgnoreCase(nombreUsuario)) {
+                if (u.getLibrosPrestados() > 0) {
+                    u.setLibrosDevueltos(u.getLibrosDevueltos() + 1);
+                    System.out.println("Devolución registrada para el usuario: " + nombreUsuario);
+                } else {
+                    System.out.println("El usuario no tiene préstamos activos");
+                }
+                return;
+            }
+        }
+        System.out.println("Usuario no encontrado");
+    }
+
+    // ----------------------------------------------------------------
+    // MOSTRAR INFORMACIÓN
+    // ----------------------------------------------------------------
+
     public void Mostrar_Libros() {
         if (libros.length == 0) {
             System.out.println("No hay libros disponibles en la biblioteca.");
@@ -133,6 +241,17 @@ public class Biblioteca {
         }
     }
 
+    public void Mostrar_Prestamos() {
+        if (prestamos.length == 0) {
+            System.out.println("No hay préstamos registrados.");
+            return;
+        }
+        System.out.println("Préstamos registrados:");
+        for (Prestamos p : prestamos) {
+            System.out.println("- " + p.getUsuario().getNombre() + " -> " + p.getLibro().getTitulo()
+                    + " | Fecha: " + p.getFechaPrestamo() + " | Devolución: " + p.getFechaDevolucion());
+        }
+    }
 }
 
 
