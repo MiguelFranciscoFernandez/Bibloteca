@@ -20,24 +20,21 @@ public class Libro {
     private String titulo;
     private String autor;
     private String editorial;
-    private long Isbn;
+    private String isbn;
     private int n_paginas;
     private Genero genero;
 
     public Libro() {
     }
 
-    public Libro(String titulo, String autor, String editorial, long Isbn, int n_paginas, Genero genero) {
+    public Libro(String titulo, String autor, String editorial, String isbn, int n_paginas, Genero genero) {
         this.titulo = titulo;
         this.autor = autor;
         this.editorial = editorial;
-        this.Isbn = Isbn;
+        this.isbn = isbn;
         this.n_paginas = n_paginas;
         this.genero = genero;
     }
-
-
-
 
     public String getTitulo() {
         return titulo;
@@ -63,12 +60,12 @@ public class Libro {
         this.editorial = editorial;
     }
 
-    public long getIsbn() {
-        return Isbn;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setIsbn(long isbn) {
-        Isbn = isbn;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public int getN_paginas() {
