@@ -7,14 +7,14 @@ package com.example;
 public class Usuario {
     private String nombre;
     private String password;
-    private String rol;
+    private boolean rol;
     private int librosPrestados;
     private int librosDevueltos;
 
     public Usuario() {
     }
 
-    public Usuario(String nombre, String password, String rol) {
+    public Usuario(String nombre, String password, boolean rol) {
         this.nombre = nombre;
         this.password = password;
         this.rol = rol;
@@ -38,11 +38,11 @@ public class Usuario {
         this.password = password;
     }
 
-    public String getRol() {
+    public boolean getRol() {
         return rol;
     }
 
-    public void setRol(String rol) {
+    public void setRol(boolean rol) {
         this.rol = rol;
     }
 
@@ -61,4 +61,5 @@ public class Usuario {
     public void setLibrosDevueltos(int librosDevueltos) {
         this.librosDevueltos = librosDevueltos;
     }
+    
 }

@@ -72,7 +72,9 @@ public class Libro {
         return genero;
     }
 
-    public void setGenero(Genero genero) {
-        this.genero = genero;
+    public void setGenero(String genero) {
+        Genero genero2 = Genero.valueOf(genero.toUpperCase());
+        this.genero = genero2;
     }
 }
+

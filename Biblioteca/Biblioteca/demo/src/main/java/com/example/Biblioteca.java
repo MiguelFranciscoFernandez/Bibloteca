@@ -21,12 +21,17 @@ public class Biblioteca {
     private Libro[] libros;
     private Usuario[] usuarios;
     private Prestamos[] prestamos;
+    private Usuario usuarioActual;
 
     // Constructor vacío - inicializa arrays vacíos
     public Biblioteca() {
         this.libros = new Libro[0];
         this.usuarios = new Usuario[0];
         this.prestamos = new Prestamos[0];
+    }
+
+    public Usuario getUsuarioActual() {
+        return usuarioActual;
     }
 
     // Constructor con parámetros
@@ -53,48 +58,58 @@ public class Biblioteca {
     // ----------------------------------------------------------------
 
     public void Agregar_Libro(String titulo, String autor, String editorial, String isbn, int n_paginas,
-            Genero genero) {
-        libros = Arrays.copyOf(libros, libros.length + 1);
-        libros[libros.length - 1] = new Libro(titulo, autor, editorial, isbn, n_paginas, genero);
-        System.out.println("Nuevo libro añadido de forma correcta");
+            String genero) {
+        if (usuarioActual.getRol()) {
+            libros = Arrays.copyOf(libros, libros.length + 1);
+            Libro l1 = new Libro(titulo, autor, editorial, isbn, n_paginas, null);
+            l1.setGenero(genero);
+            libros[libros.length - 1] = l1;
+            System.out.println("Nuevo libro añadido de forma correcta");
+        }
     }
 
     public void Eliminar_Libro(String titulo) {
-        int indice = -1;
-        for (int i = 0; i < libros.length; i++) {
-            if (libros[i].getTitulo().equals(titulo)) {
-                indice = i;
-                break;
+        if (usuarioActual.getRol()) {
+
+            int indice = -1;
+            for (int i = 0; i < libros.length; i++) {
+                if (libros[i].getTitulo().equals(titulo)) {
+                    indice = i;
+                    break;
+                }
             }
+            if (indice == -1) {
+                System.out.println("Libro no encontrado");
+                return;
+            }
+            Libro[] nuevoArray = new Libro[libros.length - 1];
+            System.arraycopy(libros, 0, nuevoArray, 0, indice);
+            System.arraycopy(libros, indice + 1, nuevoArray, indice, libros.length - indice - 1);
+            libros = nuevoArray;
+            System.out.println("El libro ha sido eliminado de esta biblioteca");
         }
-        if (indice == -1) {
-            System.out.println("Libro no encontrado");
-            return;
-        }
-        Libro[] nuevoArray = new Libro[libros.length - 1];
-        System.arraycopy(libros, 0, nuevoArray, 0, indice);
-        System.arraycopy(libros, indice + 1, nuevoArray, indice, libros.length - indice - 1);
-        libros = nuevoArray;
-        System.out.println("El libro ha sido eliminado de esta biblioteca");
     }
 
     public void Eliminar_Libro_ISBN(String isbn) {
-        int indice = -1;
-        for (int i = 0; i < libros.length; i++) {
-            if (libros[i].getIsbn().equals(isbn)) {
-                indice = i;
-                break;
+        if (usuarioActual.getRol()) {
+
+            int indice = -1;
+            for (int i = 0; i < libros.length; i++) {
+                if (libros[i].getIsbn().equals(isbn)) {
+                    indice = i;
+                    break;
+                }
             }
+            if (indice == -1) {
+                System.out.println("Libro no encontrado");
+                return;
+            }
+            Libro[] nuevoArray = new Libro[libros.length - 1];
+            System.arraycopy(libros, 0, nuevoArray, 0, indice);
+            System.arraycopy(libros, indice + 1, nuevoArray, indice, libros.length - indice - 1);
+            libros = nuevoArray;
+            System.out.println("El libro ha sido eliminado de esta biblioteca");
         }
-        if (indice == -1) {
-            System.out.println("Libro no encontrado");
-            return;
-        }
-        Libro[] nuevoArray = new Libro[libros.length - 1];
-        System.arraycopy(libros, 0, nuevoArray, 0, indice);
-        System.arraycopy(libros, indice + 1, nuevoArray, indice, libros.length - indice - 1);
-        libros = nuevoArray;
-        System.out.println("El libro ha sido eliminado de esta biblioteca");
     }
 
     public void Buscar_Libro(String titulo) {
@@ -114,52 +129,52 @@ public class Biblioteca {
     // GESTIÓN DE USUARIOS
     // ----------------------------------------------------------------
 
-    public void Agregar_Usuario(String nombre, String password, String rol) {
+    public void Agregar_Usuario(String nombre, String password, boolean rol) {
+        if (usuarioActual.getRol()) {
+            usuarios = Arrays.copyOf(usuarios, usuarios.length + 1);
+            usuarios[usuarios.length - 1] = new Usuario(nombre, password, rol);
+            System.out.println("Nuevo usuario añadido de forma correcta");
+        }
+    }
+
+    public void Agregar_Usuario_Directo(Usuario u) {
         usuarios = Arrays.copyOf(usuarios, usuarios.length + 1);
-        usuarios[usuarios.length - 1] = new Usuario(nombre, password, rol);
-        System.out.println("Nuevo usuario añadido de forma correcta");
+        usuarios[usuarios.length - 1] = u;
     }
 
     public void Eliminar_Usuario(String nombre) {
-        int indice = -1;
-        for (int i = 0; i < usuarios.length; i++) {
-            if (usuarios[i].getNombre().equalsIgnoreCase(nombre)) {
-                indice = i;
-                break;
-            }
-        }
-        if (indice == -1) {
-            System.out.println("Usuario no encontrado");
-            return;
-        }
-        Usuario[] nuevoArray = new Usuario[usuarios.length - 1];
-        System.arraycopy(usuarios, 0, nuevoArray, 0, indice);
-        System.arraycopy(usuarios, indice + 1, nuevoArray, indice, usuarios.length - indice - 1);
-        usuarios = nuevoArray;
-        System.out.println("El usuario ha sido eliminado de la biblioteca");
-    }
+        if (usuarioActual.getRol()) {
 
-    public boolean Validar_Password(String nombre, String intentoPassword) {
-        for (Usuario u : usuarios) {
-            if (u.getNombre().equalsIgnoreCase(nombre)) {
-                if (u.getPassword().equals(intentoPassword)) {
-                    return true;
-                } else {
-                    System.out.println("Contraseña incorrecta para el usuario: " + nombre);
-                    return false;
+            int indice = -1;
+            for (int i = 0; i < usuarios.length; i++) {
+                if (usuarios[i].getNombre().equalsIgnoreCase(nombre)) {
+                    indice = i;
+                    break;
                 }
             }
+            if (indice == -1) {
+                System.out.println("Usuario no encontrado");
+                return;
+            }
+            Usuario[] nuevoArray = new Usuario[usuarios.length - 1];
+            System.arraycopy(usuarios, 0, nuevoArray, 0, indice);
+            System.arraycopy(usuarios, indice + 1, nuevoArray, indice, usuarios.length - indice - 1);
+            usuarios = nuevoArray;
+            System.out.println("El usuario ha sido eliminado de la biblioteca");
         }
-        System.out.println("Usuario no encontrado");
-        return false;
     }
 
-    public boolean Tiene_Permiso_Admin(String nombre) {
+    public boolean Login(String nombre, String intentoPassword) {
         for (Usuario u : usuarios) {
-            if (u.getNombre().equalsIgnoreCase(nombre)) {
-                return u.getRol().equalsIgnoreCase("admin");
+            if (u.getNombre().equalsIgnoreCase(nombre) && u.getPassword().equals(intentoPassword)) {
+                usuarioActual = u;
+                return true;
+            } else {
+                System.out.println("Contraseña incorrecta para el usuario: " + nombre);
+                return false;
             }
         }
+
         return false;
     }
 
@@ -167,8 +182,7 @@ public class Biblioteca {
     // GESTIÓN DE PRÉSTAMOS
     // ----------------------------------------------------------------
 
-    public void Registrar_Prestamo(String nombreUsuario, String tituloLibro, String fechaPrestamo,
-            String fechaDevolucion) {
+    public void Registrar_Prestamo(String nombreUsuario, String tituloLibro, String fechaPrestamo) {
         Usuario usuario = null;
         Libro libro = null;
 
@@ -195,53 +209,68 @@ public class Biblioteca {
         }
 
         prestamos = Arrays.copyOf(prestamos, prestamos.length + 1);
-        prestamos[prestamos.length - 1] = new Prestamos(fechaPrestamo, fechaDevolucion, usuario, libro);
+        prestamos[prestamos.length - 1] = new Prestamos(fechaPrestamo, null, usuario, libro);
         usuario.setLibrosPrestados(usuario.getLibrosPrestados() + 1);
         System.out.println("Préstamo registrado correctamente");
     }
 
-    public void Registrar_Devolucion(String nombreUsuario, String tituloLibro) {
-        for (Usuario u : usuarios) {
-            if (u.getNombre().equalsIgnoreCase(nombreUsuario)) {
-                if (u.getLibrosPrestados() > 0) {
-                    u.setLibrosDevueltos(u.getLibrosDevueltos() + 1);
-                    System.out.println("Devolución registrada para el usuario: " + nombreUsuario);
-                } else {
-                    System.out.println("El usuario no tiene préstamos activos");
+    public void Registrar_Devolucion(String nombreUsuario, String tituloLibro, String fechaDevolucion) {
+    for (Usuario u : usuarios) {
+        if (u.getNombre().equalsIgnoreCase(nombreUsuario)) {
+            if (u.getLibrosPrestados() > 0) {
+                u.setLibrosDevueltos(u.getLibrosDevueltos() + 1);
+                u.setLibrosPrestados(u.getLibrosPrestados() - 1); 
+                for (Prestamos p : prestamos) {
+                    if (p.getUsuario().getNombre().equalsIgnoreCase(nombreUsuario)
+                            && p.getLibro().getTitulo().equalsIgnoreCase(tituloLibro)
+                            && p.getFechaDevolucion() == null) {
+                        p.setFechaDevolucion(fechaDevolucion);
+                        break;
+                    }
                 }
-                return;
+                System.out.println("Devolución registrada para el usuario: " + nombreUsuario);
+            } else {
+                System.out.println("El usuario no tiene préstamos activos");
             }
+            return;
         }
-        System.out.println("Usuario no encontrado");
     }
-
+    System.out.println("Usuario no encontrado");
+}
     // ----------------------------------------------------------------
     // MOSTRAR INFORMACIÓN
     // ----------------------------------------------------------------
 
     public void Mostrar_Libros() {
-        if (libros.length == 0) {
-            System.out.println("No hay libros disponibles en la biblioteca.");
-            return;
-        }
-        System.out.println("Libros disponibles en la biblioteca:");
-        for (Libro libro : libros) {
-            System.out.println("- " + libro.getTitulo() + " por " + libro.getAutor());
+        if (usuarioActual.getRol()) {
+
+            if (libros.length == 0) {
+                System.out.println("No hay libros disponibles en la biblioteca.");
+                return;
+            }
+            System.out.println("Libros disponibles en la biblioteca:");
+            for (Libro libro : libros) {
+                System.out.println("- " + libro.getTitulo() + " por " + libro.getAutor());
+            }
         }
     }
 
     public void Mostrar_Usuarios() {
-        if (usuarios.length == 0) {
-            System.out.println("No hay usuarios registrados en la biblioteca.");
-            return;
-        }
-        System.out.println("Usuarios registrados en la biblioteca:");
-        for (Usuario usuario : usuarios) {
-            System.out.println("- " + usuario.getNombre() + " (Rol: " + usuario.getRol() + ")");
+        if (usuarioActual.getRol()) {
+
+            if (usuarios.length == 0) {
+                System.out.println("No hay usuarios registrados en la biblioteca.");
+                return;
+            }
+            System.out.println("Usuarios registrados en la biblioteca:");
+            for (Usuario usuario : usuarios) {
+                System.out.println("- " + usuario.getNombre() + " (Rol: " + usuario.getRol() + ")");
+            }
         }
     }
 
     public boolean Mostrar_Libros_Prestados() {
+
         boolean Prestados = false;
         if (prestamos.length == 0) {
             System.out.println("No hay préstamos registrados.");
@@ -275,43 +304,104 @@ public class Biblioteca {
     }
 
     public void Libros_Mas_Prestados() {
-        if (prestamos.length == 0) {
-            System.out.println("No hay préstamos registrados.");
-            return;
-        }
-        int maxPrestamos = 0;
-        for (Usuario u : usuarios) {
-            if (u.getLibrosPrestados() > maxPrestamos) {
-                maxPrestamos = u.getLibrosPrestados();
+        if (usuarioActual.getRol()) {
+
+            if (prestamos.length == 0) {
+                System.out.println("No hay préstamos registrados.");
+                return;
             }
-        }
-        System.out.println("Usuario(s) con más libros prestados (" + maxPrestamos + "):");
-        for (Usuario u : usuarios) {
-            if (u.getLibrosPrestados() == maxPrestamos) {
-                System.out.println("- " + u.getNombre());
+            int maxPrestamos = 0;
+            for (Usuario u : usuarios) {
+                if (u.getLibrosPrestados() > maxPrestamos) {
+                    maxPrestamos = u.getLibrosPrestados();
+                }
+            }
+            System.out.println("Usuario(s) con más libros prestados (" + maxPrestamos + "):");
+            for (Usuario u : usuarios) {
+                if (u.getLibrosPrestados() == maxPrestamos) {
+                    System.out.println("- " + u.getNombre());
+                }
             }
         }
     }
 
     public void usuario_con_mas_prestamos_activos() {
-        if (usuarios.length == 0) {
-            System.out.println("No hay usuarios registrados.");
-            return;
-        }
-        int maxPrestamos = 0;
-        Usuario usuarioMaxPrestamos = null;
-        for (Usuario u : usuarios) {
-            if (u.getLibrosPrestados() > maxPrestamos) {
-                maxPrestamos = u.getLibrosPrestados();
-                usuarioMaxPrestamos = u;
+        if (usuarioActual.getRol()) {
+
+            if (usuarios.length == 0) {
+                System.out.println("No hay usuarios registrados.");
+                return;
             }
-        }
-        if (usuarioMaxPrestamos != null) {
-            System.out.println("Usuario con más préstamos activos: " + usuarioMaxPrestamos.getNombre()
-                    + " (" + maxPrestamos + " libros)");
-        } else {
-            System.out.println("No hay usuarios con préstamos activos.");
+            int maxPrestamos = 0;
+            Usuario usuarioMaxPrestamos = null;
+            for (Usuario u : usuarios) {
+                if (u.getLibrosPrestados() > maxPrestamos) {
+                    maxPrestamos = u.getLibrosPrestados();
+                    usuarioMaxPrestamos = u;
+                }
+            }
+            if (usuarioMaxPrestamos != null) {
+                System.out.println("Usuario con más préstamos activos: " + usuarioMaxPrestamos.getNombre()
+                        + " (" + maxPrestamos + " libros)");
+            } else {
+                System.out.println("No hay usuarios con préstamos activos.");
+            }
         }
     }
 
+    public void mostrarMenuAdmin() {
+        System.out.println("╔══════════════════════════════════════════════╗");
+        System.out.println("║                                              ║");
+        System.out.println("║        📚  SISTEMA DE BIBLIOTECA  📚        ║");
+        System.out.println("║                                              ║");
+        System.out.println("╠══════════════════════════════════════════════╣");
+        System.out.println("║                                              ║");
+        System.out.println("║   1.  Agregar libro                          ║");
+        System.out.println("║   2.  Eliminar libro                         ║");
+        System.out.println("║   3.  Buscar libro                           ║");
+        System.out.println("║   4.  Mostrar todos los libros               ║");
+        System.out.println("║   5.  Registrar usuario                      ║");
+        System.out.println("║   6.  Consultar usuarios registrados         ║");
+        System.out.println("║   7.  Realizar préstamo                      ║");
+        System.out.println("║   8.  Devolver libro                         ║");
+        System.out.println("║   9.  Mostrar libros prestados               ║");
+        System.out.println("║   10. Ver número de préstamos                ║");
+        System.out.println("║   11. Ver libros más prestados               ║");
+        System.out.println("║   12. Ver usuario con más préstamos          ║");
+        System.out.println("║                                              ║");
+        System.out.println("╠══════════════════════════════════════════════╣");
+        System.out.println("║   0.  Salir                                  ║");
+        System.out.println("╚══════════════════════════════════════════════╝");
+        System.out.print("\n  → Selecciona una opción: ");
+
+    }
+
+    public void mostrarMenuUsuario() {
+        System.out.println("╔══════════════════════════════════════════════╗");
+        System.out.println("║                                              ║");
+        System.out.println("║        📚  SISTEMA DE BIBLIOTECA  📚        ║");
+        System.out.println("║                                              ║");
+        System.out.println("╠══════════════════════════════════════════════╣");
+        System.out.println("║                                              ║");
+        System.out.println("║   1.  Buscar libro                           ║");
+        System.out.println("║   2.  Mostrar todos los libros               ║");
+        System.out.println("║   3.  Realizar préstamo                      ║");
+        System.out.println("║   4.  Devolver libro                         ║");
+        System.out.println("║   5. Ver libros más prestados                ║");
+        System.out.println("║                                              ║");
+        System.out.println("╠══════════════════════════════════════════════╣");
+        System.out.println("║   0.  Salir                                  ║");
+        System.out.println("╚══════════════════════════════════════════════╝");
+        System.out.print("\n  → Selecciona una opción: ");
+    }
+
+    public void inicio(String n, String c) {
+        if (Login(n, c)) {
+            if (usuarioActual.getRol()) {
+                mostrarMenuAdmin();
+            } else {
+                mostrarMenuUsuario();
+            }
+        }
+    }
 }
