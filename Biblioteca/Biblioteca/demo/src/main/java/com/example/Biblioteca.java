@@ -169,12 +169,9 @@ public class Biblioteca {
             if (u.getNombre().equalsIgnoreCase(nombre) && u.getPassword().equals(intentoPassword)) {
                 usuarioActual = u;
                 return true;
-            } else {
-                System.out.println("Contraseña incorrecta para el usuario: " + nombre);
-                return false;
-            }
+            } 
         }
-
+        System.out.println("Usuario o contraseña incorrectos.");
         return false;
     }
 
